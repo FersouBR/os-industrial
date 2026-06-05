@@ -1,13 +1,155 @@
+import { useState } from 'react'
+import ordensServicoData from '../data/ordensServico'
+
 function OrdensServico() {
+          const [ordensServico, setOrdensServico] =useState(
+            ordensServicoData
+          )
+
+          const [equipamento, setEquipamento] =
+            useState('')
+
+          const [prioridade, setPrioridade] =
+            useState('Alta')
+
+          const [status, setStatus] =
+            useState('Aberta')
+            function adicionarOS() {
+                      if (!equipamento) return
+
+                          const novaOS = {
+                            id: ordensServico.length + 1,
+                            equipamento,
+                            prioridade,
+                            status,
+                          }
+
+                          setOrdensServico([
+                            ...ordensServico,
+                            novaOS,
+                          ])
+
+                setEquipamento('')
+                setPrioridade('Alta')
+                setStatus('Aberta')
+              }
+             function excluirOS(id) {
+            setOrdensServico(
+              ordensServico.filter(
+                (os) => os.id !== id
+              )
+            )
+          }
   return (
     <div>
-      <h1 className="text-4xl font-bold">
-        Ordens de Serviço
-      </h1>
+
+      <div className="flex items-center justify-between">
+
+        <h1 className="text-4xl font-bold">
+          Ordens de Serviço
+        </h1>
+
+        <button className="rounded-lg bg-blue-600 px-4 py-2 hover:bg-blue-700">
+          Nova OS
+        </button>
+
+      </div>
 
       <p className="mt-4 text-slate-400">
         Controle das ordens de serviço.
       </p>
+      <div className="mt-8 grid gap-4 md:grid-cols-4">
+
+          <input
+            type="text"
+            placeholder="Equipamento"
+            value={equipamento}
+            onChange={(e) =>
+              setEquipamento(e.target.value)
+            }
+            className="rounded border border-slate-700 bg-slate-900 p-3"
+          />
+
+          <select
+            value={prioridade}
+            onChange={(e) =>
+              setPrioridade(e.target.value)
+            }
+            className="rounded border border-slate-700 bg-slate-900 p-3"
+          >
+            <option>Alta</option>
+            <option>Média</option>
+            <option>Baixa</option>
+          </select>
+
+          <select
+            value={status}
+            onChange={(e) =>
+              setStatus(e.target.value)
+            }
+            className="rounded border border-slate-700 bg-slate-900 p-3"
+          >
+            <option>Aberta</option>
+            <option>Em Execução</option>
+            <option>Concluída</option>
+          </select>
+
+          <button
+            onClick={adicionarOS}
+            className="rounded bg-blue-600 px-4 py-3 hover:bg-blue-700"
+          >
+            Adicionar
+          </button>
+  
+
+        </div>
+
+      <div className="mt-8 overflow-hidden rounded-xl border border-slate-800">
+
+        <table className="w-full">
+
+          <thead className="bg-slate-900">
+
+          <tr>
+          <th className="p-4 text-left">Nº</th>
+          <th className="p-4 text-left">Equipamento</th>
+          <th className="p-4 text-left">Prioridade</th>
+          <th className="p-4 text-left">Status</th>
+          <th className="p-4 text-left">Ações</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            {ordensServico.map((os) => (
+              <tr
+                key={os.id}
+                className="border-t border-slate-800"
+              >
+                <td className="p-4">{os.id}</td>
+                <td className="p-4">{os.equipamento}</td>
+                <td className="p-4">{os.prioridade}</td>
+                <td className="p-4">{os.status}</td>
+                <td className="p-4">
+
+                  <button
+                    onClick={() => excluirOS(os.id)}
+                    className="rounded bg-red-600 px-3 py-1 hover:bg-red-700"
+                  >
+                    Excluir
+                  </button>
+
+                </td>
+              </tr>
+            ))}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
   )
 }
