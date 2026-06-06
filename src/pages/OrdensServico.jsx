@@ -14,6 +14,13 @@ function OrdensServico() {
 
           const [status, setStatus] =
             useState('Aberta')
+          const [busca, setBusca] = 
+            useState('')
+            const ordensFiltradas = ordensServico.filter((os) =>
+              os.equipamento.toLowerCase().includes(
+                busca.toLowerCase()
+              )
+            )
             function adicionarOS() {
                       if (!equipamento) return
 
@@ -58,6 +65,15 @@ function OrdensServico() {
       <p className="mt-4 text-slate-400">
         Controle das ordens de serviço.
       </p>
+      <div className="mt-6">
+        <input
+          type="text"
+          placeholder="Pesquisar OS..."
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          className="w-full rounded-lg border border-slate-700 bg-slate-900 p-3 text-white"
+        />
+      </div>
       <div className="mt-8 grid gap-4 md:grid-cols-4">
 
           <input
@@ -122,7 +138,7 @@ function OrdensServico() {
 
           <tbody>
 
-            {ordensServico.map((os) => (
+            {ordensFiltradas.map((os) => (
               <tr
                 key={os.id}
                 className="border-t border-slate-800"
