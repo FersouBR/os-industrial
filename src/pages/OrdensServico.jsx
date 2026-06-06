@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ordensServicoData from '../data/ordensServico'
 
 function OrdensServico() {
-          const [ordensServico, setOrdensServico] =useState(
-            ordensServicoData
-          )
+         const [ordensServico, setOrdensServico] = useState(() => {
+            const dadosSalvos = localStorage.getItem('ordensServico')
 
+            return dadosSalvos
+              ? JSON.parse(dadosSalvos)
+              : ordensServicoData
+          })
           const [equipamento, setEquipamento] =
             useState('')
 
@@ -21,6 +24,12 @@ function OrdensServico() {
                 busca.toLowerCase()
               )
             )
+            useEffect(() => {
+            localStorage.setItem(
+              'ordensServico',
+              JSON.stringify(ordensServico)
+            )
+          }, [ordensServico])
             function adicionarOS() {
                       if (!equipamento) return
 
