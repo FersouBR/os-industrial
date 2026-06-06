@@ -155,7 +155,21 @@ function OrdensServico() {
                 <td className="p-4">{os.id}</td>
                 <td className="p-4">{os.equipamento}</td>
                 <td className="p-4">{os.prioridade}</td>
-                <td className="p-4">{os.status}</td>
+                <td className="p-4">
+
+                    <span
+                      className={
+                        os.status === 'Aberta'
+                          ? 'rounded-full bg-red-500/20 px-3 py-1 text-red-400'
+                          : os.status === 'Em Execução'
+                          ? 'rounded-full bg-yellow-500/20 px-3 py-1 text-yellow-400'
+                          : 'rounded-full bg-green-500/20 px-3 py-1 text-green-400'
+                      }
+                    >
+                      {os.status}
+                    </span>
+
+                  </td>
                 <td className="p-4">
 
                   <button
